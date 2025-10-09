@@ -85,57 +85,106 @@
             const toggleBtn = document.getElementById('toggleAnimations');
             const animatedGifs = document.querySelectorAll('.animated-gif');
             
-            // Store original gif sources and create static versions
+            // Store original gif sources and create thumbnail versions
             const originalSources = new Map();
-            const staticVersions = new Map();
+            const thumbnailVersions = new Map();
             
-            // Initialize by creating static versions of all GIFs
+            // Function to create high-quality thumbnail from GIF
+            function createThumbnail(gif, callback) {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                // Create a temporary image to get dimensions
+                const tempImg = new Image();
+                tempImg.crossOrigin = 'anonymous';
+                
+                tempImg.onload = function() {
+                    // Set canvas size to match image
+                    canvas.width = this.naturalWidth || this.width;
+                    canvas.height = this.naturalHeight || this.height;
+                    
+                    // Draw the first frame with high quality
+                    ctx.imageSmoothingEnabled = true;
+                    ctx.imageSmoothingQuality = 'high';
+                    ctx.drawImage(this, 0, 0, canvas.width, canvas.height);
+                    
+                    // Add a subtle "paused" indicator overlay
+                    const overlayHeight = 30;
+                    const gradient = ctx.createLinearGradient(0, canvas.height - overlayHeight, 0, canvas.height);
+                    gradient.addColorStop(0, 'rgba(0, 0, 0, 0)');
+                    gradient.addColorStop(1, 'rgba(0, 0, 0, 0.7)');
+                    
+                    ctx.fillStyle = gradient;
+                    ctx.fillRect(0, canvas.height - overlayHeight, canvas.width, overlayHeight);
+                    
+                    // Add pause icon
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+                    ctx.font = '16px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('⏸️ PAUSED', canvas.width / 2, canvas.height - 8);
+                    
+                    // Convert to high-quality thumbnail
+                    const thumbnail = canvas.toDataURL('image/png', 0.9);
+                    callback(thumbnail);
+                };
+                
+                tempImg.onerror = function() {
+                    // Fallback thumbnail if image fails to load
+                    canvas.width = gif.width || 300;
+                    canvas.height = gif.height || 200;
+                    
+                    // Create a gradient background
+                    const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+                    gradient.addColorStop(0, '#f0f0f0');
+                    gradient.addColorStop(1, '#e0e0e0');
+                    ctx.fillStyle = gradient;
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    
+                    // Add pause text
+                    ctx.fillStyle = '#666';
+                    ctx.font = 'bold 18px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('⏸️', canvas.width / 2, canvas.height / 2 - 10);
+                    ctx.font = '14px Arial';
+                    ctx.fillText('Animation Paused', canvas.width / 2, canvas.height / 2 + 15);
+                    
+                    callback(canvas.toDataURL('image/png'));
+                };
+                
+                tempImg.src = gif.src;
+            }
+            
+            // Initialize thumbnails for all GIFs
             animatedGifs.forEach(gif => {
                 originalSources.set(gif, gif.src);
                 
-                // Create a new image element to load the GIF and capture first frame
-                const tempImg = new Image();
-                tempImg.crossOrigin = 'anonymous';
-                tempImg.onload = function() {
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-                    canvas.width = this.naturalWidth;
-                    canvas.height = this.naturalHeight;
-                    ctx.drawImage(this, 0, 0);
-                    staticVersions.set(gif, canvas.toDataURL('image/png'));
-                };
-                tempImg.src = gif.src;
+                // Create thumbnail version
+                createThumbnail(gif, (thumbnail) => {
+                    thumbnailVersions.set(gif, thumbnail);
+                });
             });
             
             toggleBtn.addEventListener('click', function() {
                 animationsPaused = !animationsPaused;
                 
                 if (animationsPaused) {
-                    // Pause animations by switching to static versions
+                    // Pause animations by switching to thumbnail versions
                     document.body.classList.add('animations-paused');
                     toggleBtn.textContent = 'Play Animations';
                     toggleBtn.classList.add('paused');
                     
                     animatedGifs.forEach(gif => {
-                        const staticVersion = staticVersions.get(gif);
-                        if (staticVersion) {
-                            gif.src = staticVersion;
+                        const thumbnail = thumbnailVersions.get(gif);
+                        if (thumbnail) {
+                            gif.src = thumbnail;
                         } else {
-                            // Fallback: create static version immediately
-                            const canvas = document.createElement('canvas');
-                            const ctx = canvas.getContext('2d');
-                            canvas.width = gif.naturalWidth || gif.width || 300;
-                            canvas.height = gif.naturalHeight || gif.height || 300;
-                            
-                            // Create a simple placeholder if we can't capture the frame
-                            ctx.fillStyle = '#f0f0f0';
-                            ctx.fillRect(0, 0, canvas.width, canvas.height);
-                            ctx.fillStyle = '#666';
-                            ctx.font = '20px Arial';
-                            ctx.textAlign = 'center';
-                            ctx.fillText('Animation Paused', canvas.width/2, canvas.height/2);
-                            
-                            gif.src = canvas.toDataURL('image/png');
+                            // Create thumbnail on demand if not ready
+                            createThumbnail(gif, (newThumbnail) => {
+                                thumbnailVersions.set(gif, newThumbnail);
+                                if (animationsPaused) { // Only apply if still paused
+                                    gif.src = newThumbnail;
+                                }
+                            });
                         }
                     });
                     
