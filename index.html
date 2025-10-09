@@ -3,26 +3,103 @@
         <title>LAZ DDESIGNS</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="style.css">
     </header>
     <body>
-        <h1>Greetings & Welcome to My Art Portfolio</h1>
-        <p>Explore my collection of artworks and projects.</p>
+        <div class="animation-controls">
+            <button id="toggleAnimations" class="control-btn">Pause Animations</button>
+        </div>
+        
+        <div class="header">
+            <h1>LAZ DESIGNS</h1>
+            <p class="tagline">Visual Artist & Creative Designer</p>
+            <p class="description">Explore my collection of digital art, album covers, and creative projects.</p>
+        </div>
+        
         <nav>
-            <ul>
-                <li><a href="about.html">About Me</a></li>
-                <li><a href="gallery.html">Gallery</a></li>
-                <li><a href="contact.html">Contact</a></li>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="about.html" class="nav-link">About Me</a></li>
+                <li><a href="gallery.html" class="nav-link">Gallery</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
             </ul>
         </nav>
-        <section>
-            <h2>Featured Artwork</h2>
-            <picture>
-                <img src="images/fountain.gif" alt="Featured Artwork" loading="lazy">
-            </picture>
-        </section>
-        <section>
-            <h2>Latest Projects</h2>
-        </section>
+        
+        <main>
+            <section class="featured-section">
+                <h2>Featured Artwork</h2>
+                <div class="featured-grid">
+                    <div class="artwork-card">
+                        <img src="images/fountain.gif" alt="Animated Fountain Art" class="featured-image animated-gif" loading="lazy">
+                        <div class="card-overlay">
+                            <h3>Digital Fountain</h3>
+                            <p>Animated digital art piece</p>
+                        </div>
+                    </div>
+                    <div class="artwork-card">
+                        <img src="images/anniversary_album_cover.png" alt="Anniversary Album Cover" class="featured-image" loading="lazy">
+                        <div class="card-overlay">
+                            <h3>Anniversary Album</h3>
+                            <p>Custom album cover design</p>
+                        </div>
+                    </div>
+                    <div class="artwork-card">
+                        <img src="images/muna-album-cover-reverse.gif" alt="MUNA Album Cover Animation" class="featured-image animated-gif" loading="lazy">
+                        <div class="card-overlay">
+                            <h3>MUNA Reverse</h3>
+                            <p>Animated album cover concept</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="preview-section">
+                <h2>Latest Projects</h2>
+                <div class="projects-grid">
+                    <div class="project-preview">
+                        <img src="images/Kids_Need_Healthcare.png" alt="Kids Need Healthcare Campaign" loading="lazy">
+                        <h3>Social Impact Design</h3>
+                    </div>
+                    <div class="project-preview">
+                        <img src="images/tuna-melt-piel-1000.png" alt="Tuna Melt Artwork" loading="lazy">
+                        <h3>Food Art Series</h3>
+                    </div>
+                    <div class="project-preview">
+                        <img src="images/women_with_gerd.png" alt="Women with GERD Illustration" loading="lazy">
+                        <h3>Medical Illustration</h3>
+                    </div>
+                </div>
+                <div class="cta-section">
+                    <a href="gallery.html" class="cta-button">View Full Gallery</a>
+                </div>
+            </section>
+        </main>
+        
+        <footer>
+            <p>&copy; 2025 LAZ DESIGNS. All rights reserved.</p>
+        </footer>
+        
+        <script>
+            // Animation control functionality
+            let animationsPaused = false;
+            const toggleBtn = document.getElementById('toggleAnimations');
+            const animatedGifs = document.querySelectorAll('.animated-gif');
+            
+            toggleBtn.addEventListener('click', function() {
+                animationsPaused = !animationsPaused;
+                
+                if (animationsPaused) {
+                    // Pause animations by adding a class that stops animation
+                    document.body.classList.add('animations-paused');
+                    toggleBtn.textContent = 'Play Animations';
+                    toggleBtn.classList.add('paused');
+                } else {
+                    // Resume animations
+                    document.body.classList.remove('animations-paused');
+                    toggleBtn.textContent = 'Pause Animations';
+                    toggleBtn.classList.remove('paused');
+                }
+            });
+        </script>
     </body>
 </HTML>

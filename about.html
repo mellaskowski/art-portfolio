@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me - LAZ DESIGNS</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* About page specific styles */
+        .about-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .about-content {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 60px 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            margin-bottom: 60px;
+            line-height: 1.8;
+        }
+
+        .about-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: #444;
+            font-weight: 300;
+            text-align: center;
+        }
+
+        .about-content p {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 25px;
+            text-align: justify;
+        }
+
+        .skills-section {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            margin-bottom: 40px;
+        }
+
+        .skills-section h3 {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: #444;
+            font-weight: 300;
+            text-align: center;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .skill-category {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .skill-category:hover {
+            transform: translateY(-5px);
+        }
+
+        .skill-category h4 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #444;
+        }
+
+        .skill-category ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .skill-category li {
+            margin: 8px 0;
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .quote {
+            font-style: italic;
+            font-size: 1.3rem;
+            text-align: center;
+            color: #666;
+            margin: 40px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            border-radius: 15px;
+            border-left: 4px solid;
+            border-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%) 1;
+        }
+
+        @media (max-width: 768px) {
+            .about-content {
+                padding: 40px 25px;
+            }
+            
+            .skills-section {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="animation-controls">
+        <button id="toggleAnimations" class="control-btn">Pause Animations</button>
+    </div>
+
+    <div class="header">
+        <h1>About Me</h1>
+        <p class="description">Get to know the artist behind LAZ DESIGNS</p>
+    </div>
+
+    <nav>
+        <ul class="nav-menu">
+            <li><a href="index.html" class="nav-link">Home</a></li>
+            <li><a href="about.html" class="nav-link">About Me</a></li>
+            <li><a href="gallery.html" class="nav-link">Gallery</a></li>
+            <li><a href="contact.html" class="nav-link">Contact</a></li>
+        </ul>
+    </nav>
+
+    <main class="about-container">
+        <div class="about-content">
+            <h2>Hello, I'm Laz</h2>
+            
+            <p>
+                Welcome to my creative universe! I'm a passionate visual artist and designer with a love for bringing 
+                ideas to life through digital mediums. My work spans across various disciplines, from animated GIFs 
+                and album cover designs to social impact illustrations and medical art.
+            </p>
+
+            <p>
+                My artistic journey began with a fascination for the intersection of technology and creativity. 
+                I believe that art has the power to communicate, inspire, and create meaningful connections. 
+                Whether I'm designing an album cover that captures the essence of music, creating animations 
+                that mesmerize viewers, or developing illustrations for important social causes, every piece 
+                tells a story.
+            </p>
+
+            <p>
+                What sets my work apart is the attention to detail and the emotional depth I bring to each project. 
+                I'm particularly drawn to projects that combine aesthetic beauty with purposeful messaging, 
+                such as healthcare awareness campaigns and social impact designs. My goal is to create art 
+                that not only looks stunning but also makes a difference.
+            </p>
+
+            <div class="quote">
+                "Art is not what you see, but what you make others see." - Edgar Degas
+            </div>
+
+            <p>
+                When I'm not creating digital art, you can find me exploring new animation techniques, 
+                studying color theory, or collaborating with musicians and organizations to bring their 
+                visions to life. I'm always excited to take on new challenges and push the boundaries 
+                of what's possible in digital design.
+            </p>
+        </div>
+
+        <div class="skills-section">
+            <h3>Skills & Expertise</h3>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h4>Digital Art</h4>
+                    <ul>
+                        <li>Animation & Motion Graphics</li>
+                        <li>Digital Illustration</li>
+                        <li>Concept Art</li>
+                        <li>Character Design</li>
+                    </ul>
+                </div>
+                
+                <div class="skill-category">
+                    <h4>Design</h4>
+                    <ul>
+                        <li>Album Cover Design</li>
+                        <li>Brand Identity</li>
+                        <li>Print Design</li>
+                        <li>UI/UX Design</li>
+                    </ul>
+                </div>
+                
+                <div class="skill-category">
+                    <h4>Specialized Work</h4>
+                    <ul>
+                        <li>Medical Illustration</li>
+                        <li>Social Impact Design</li>
+                        <li>Food Art & Styling</li>
+                        <li>Campaign Graphics</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="about-content">
+            <h2>My Philosophy</h2>
+            <p>
+                I believe that great design is more than just aesthetics—it's about creating experiences 
+                that resonate with people on an emotional level. Every project I take on is an opportunity 
+                to tell a story, solve a problem, or inspire change. I'm committed to creating work that 
+                is not only visually compelling but also meaningful and impactful.
+            </p>
+            
+            <p>
+                Collaboration is at the heart of my creative process. I love working with clients to 
+                understand their vision and bring it to life in ways that exceed their expectations. 
+                Whether you're a musician looking for the perfect album cover, an organization needing 
+                awareness campaign materials, or anyone with a creative vision, I'm here to help make it reality.
+            </p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 LAZ DESIGNS. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Animation control functionality
+        let animationsPaused = false;
+        const toggleBtn = document.getElementById('toggleAnimations');
+        
+        toggleBtn.addEventListener('click', function() {
+            animationsPaused = !animationsPaused;
+            
+            if (animationsPaused) {
+                document.body.classList.add('animations-paused');
+                toggleBtn.textContent = 'Play Animations';
+                toggleBtn.classList.add('paused');
+            } else {
+                document.body.classList.remove('animations-paused');
+                toggleBtn.textContent = 'Pause Animations';
+                toggleBtn.classList.remove('paused');
+            }
+        });
+    </script>
+</body>
+</html>

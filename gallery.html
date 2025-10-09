@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - LAZ DESIGNS</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Gallery-specific styles */
+        .gallery-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .gallery-section {
+            margin-bottom: 80px;
+        }
+
+        .gallery-section h2 {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 40px;
+            color: #444;
+            font-weight: 300;
+            position: relative;
+        }
+
+        .gallery-section h2:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            background: white;
+            cursor: pointer;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .item-info {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .item-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            color: #444;
+        }
+
+        .item-info p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .item-type {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-top: 10px;
+        }
+
+        /* Modal styles for enlarged view */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .modal-content img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close:hover {
+            color: #ccc;
+        }
+
+        .filter-controls {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid transparent;
+            padding: 10px 25px;
+            margin: 5px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="animation-controls">
+        <button id="toggleAnimations" class="control-btn">Pause Animations</button>
+    </div>
+
+    <div class="header">
+        <h1>Gallery</h1>
+        <p class="description">Explore my complete collection of digital art, designs, and creative projects.</p>
+    </div>
+
+    <nav>
+        <ul class="nav-menu">
+            <li><a href="index.html" class="nav-link">Home</a></li>
+            <li><a href="about.html" class="nav-link">About Me</a></li>
+            <li><a href="gallery.html" class="nav-link">Gallery</a></li>
+            <li><a href="contact.html" class="nav-link">Contact</a></li>
+        </ul>
+    </nav>
+
+    <main class="gallery-container">
+        <div class="filter-controls">
+            <button class="filter-btn active" data-filter="all">All Artwork</button>
+            <button class="filter-btn" data-filter="animated">Animated</button>
+            <button class="filter-btn" data-filter="static">Static Images</button>
+            <button class="filter-btn" data-filter="album-covers">Album Covers</button>
+            <button class="filter-btn" data-filter="illustration">Illustrations</button>
+        </div>
+
+        <section class="gallery-section">
+            <div class="gallery-grid" id="galleryGrid">
+                <!-- Animated Works -->
+                <div class="gallery-item" data-category="animated">
+                    <img src="images/fountain.gif" alt="Digital Fountain Animation" class="animated-gif">
+                    <div class="item-info">
+                        <h3>Digital Fountain</h3>
+                        <p>An enchanting animated piece featuring flowing water elements</p>
+                        <span class="item-type">Animation</span>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="animated album-covers">
+                    <img src="images/muna-album-cover-reverse.gif" alt="MUNA Album Cover Animation" class="animated-gif">
+                    <div class="item-info">
+                        <h3>MUNA - Reverse Animation</h3>
+                        <p>Dynamic album cover concept with reverse motion effects</p>
+                        <span class="item-type">Album Cover</span>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="animated">
+                    <img src="images/washing_machine.gif" alt="Washing Machine Animation" class="animated-gif">
+                    <div class="item-info">
+                        <h3>Washing Machine Cycle</h3>
+                        <p>Hypnotic animation capturing the rhythm of everyday life</p>
+                        <span class="item-type">Animation</span>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="animated">
+                    <img src="images/animated/pink-lightning.gif" alt="Pink Lightning Animation" class="animated-gif">
+                    <div class="item-info">
+                        <h3>Pink Lightning</h3>
+                        <p>Electric energy visualization in vibrant pink tones</p>
+                        <span class="item-type">Animation</span>
+                    </div>
+                </div>
+
+                <!-- Static Works -->
+                <div class="gallery-item" data-category="static album-covers">
+                    <img src="images/anniversary_album_cover.png" alt="Anniversary Album Cover">
+                    <div class="item-info">
+                        <h3>Anniversary Album</h3>
+                        <p>Commemorative album cover design with elegant typography</p>
+                        <span class="item-type">Album Cover</span>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="static illustration">
+                    <img src="images/Kids_Need_Healthcare.png" alt="Kids Need Healthcare Campaign">
+                    <div class="item-info">
+                        <h3>Kids Need Healthcare</h3>
+                        <p>Social awareness campaign advocating for children's healthcare rights</p>
+                        <span class="item-type">Social Impact</span>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="static illustration">
+                    <img src="images/tuna-melt-piel-1000.png" alt="Tuna Melt Artwork">
+                    <div class="item-info">
+                        <h3>Tuna Melt Dreams</h3>
+                        <p>Whimsical food art celebrating comfort cuisine</p>
+                        <span class="item-type">Food Art</span>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="static illustration">
+                    <img src="images/women_with_gerd.png" alt="Women with GERD Illustration">
+                    <div class="item-info">
+                        <h3>GERD Awareness</h3>
+                        <p>Medical illustration raising awareness about digestive health</p>
+                        <span class="item-type">Medical Art</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal for enlarged images -->
+    <div id="imageModal" class="modal">
+        <span class="close">&times;</span>
+        <div class="modal-content">
+            <img id="modalImage" src="" alt="">
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 LAZ DESIGNS. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Animation control functionality
+        let animationsPaused = false;
+        const toggleBtn = document.getElementById('toggleAnimations');
+        
+        toggleBtn.addEventListener('click', function() {
+            animationsPaused = !animationsPaused;
+            
+            if (animationsPaused) {
+                document.body.classList.add('animations-paused');
+                toggleBtn.textContent = 'Play Animations';
+                toggleBtn.classList.add('paused');
+            } else {
+                document.body.classList.remove('animations-paused');
+                toggleBtn.textContent = 'Pause Animations';
+                toggleBtn.classList.remove('paused');
+            }
+        });
+
+        // Filter functionality
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all buttons
+                filterBtns.forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                this.classList.add('active');
+
+                const filter = this.getAttribute('data-filter');
+
+                galleryItems.forEach(item => {
+                    if (filter === 'all') {
+                        item.style.display = 'block';
+                    } else {
+                        const categories = item.getAttribute('data-category').split(' ');
+                        if (categories.includes(filter)) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    }
+                });
+            });
+        });
+
+        // Modal functionality
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        const closeBtn = document.querySelector('.close');
+
+        // Add click event to all gallery images
+        document.querySelectorAll('.gallery-item img').forEach(img => {
+            img.addEventListener('click', function() {
+                modal.style.display = 'block';
+                modalImg.src = this.src;
+                modalImg.alt = this.alt;
+            });
+        });
+
+        // Close modal when clicking the X
+        closeBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+
+        // Close modal when clicking outside the image
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                modal.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
