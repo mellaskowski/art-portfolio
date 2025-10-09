@@ -232,18 +232,74 @@
         // Animation control functionality
         let animationsPaused = false;
         const toggleBtn = document.getElementById('toggleAnimations');
+        const animatedGifs = document.querySelectorAll('.animated-gif');
+        
+        // Store original gif sources and create static versions
+        const originalSources = new Map();
+        const staticVersions = new Map();
+        
+        // Initialize by creating static versions of all GIFs
+        animatedGifs.forEach(gif => {
+            originalSources.set(gif, gif.src);
+            
+            // Create a new image element to load the GIF and capture first frame
+            const tempImg = new Image();
+            tempImg.crossOrigin = 'anonymous';
+            tempImg.onload = function() {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = this.naturalWidth;
+                canvas.height = this.naturalHeight;
+                ctx.drawImage(this, 0, 0);
+                staticVersions.set(gif, canvas.toDataURL('image/png'));
+            };
+            tempImg.src = gif.src;
+        });
         
         toggleBtn.addEventListener('click', function() {
             animationsPaused = !animationsPaused;
             
             if (animationsPaused) {
+                // Pause animations by switching to static versions
                 document.body.classList.add('animations-paused');
                 toggleBtn.textContent = 'Play Animations';
                 toggleBtn.classList.add('paused');
+                
+                animatedGifs.forEach(gif => {
+                    const staticVersion = staticVersions.get(gif);
+                    if (staticVersion) {
+                        gif.src = staticVersion;
+                    } else {
+                        // Fallback: create static version immediately
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        canvas.width = gif.naturalWidth || gif.width || 300;
+                        canvas.height = gif.naturalHeight || gif.height || 300;
+                        
+                        // Create a simple placeholder if we can't capture the frame
+                        ctx.fillStyle = '#f0f0f0';
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                        ctx.fillStyle = '#666';
+                        ctx.font = '20px Arial';
+                        ctx.textAlign = 'center';
+                        ctx.fillText('Animation Paused', canvas.width/2, canvas.height/2);
+                        
+                        gif.src = canvas.toDataURL('image/png');
+                    }
+                });
+                
             } else {
+                // Resume animations by restoring original sources
                 document.body.classList.remove('animations-paused');
                 toggleBtn.textContent = 'Pause Animations';
                 toggleBtn.classList.remove('paused');
+                
+                animatedGifs.forEach(gif => {
+                    const originalSrc = originalSources.get(gif);
+                    if (originalSrc) {
+                        gif.src = originalSrc + '?t=' + Date.now(); // Add timestamp to force reload
+                    }
+                });
             }
         });
     </script>

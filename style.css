@@ -42,10 +42,11 @@ body {
     background: rgba(34, 139, 34, 0.8);
 }
 
-/* When animations are paused, stop all GIF animations */
+/* When animations are paused, apply visual effects to indicate paused state */
 .animations-paused .animated-gif {
-    animation-play-state: paused;
-    filter: grayscale(20%);
+    filter: grayscale(30%) contrast(0.8);
+    opacity: 0.8;
+    transition: all 0.3s ease;
 }
 
 /* Header styles */
