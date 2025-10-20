@@ -431,6 +431,8 @@ footer {
 .tag.contemporary { background: #fce4ec; color: #e91e63; }
 .tag.community { background: #fff8e1; color: #ffc107; }
 .tag.queer { background: #f3e5f5; color: #8e24aa; }
+.tag.performance { background: #fce4ec; color: #d81b60; }
+.tag.library { background: #e8eaf6; color: #5c6bc0; }
 .tag.experimental { background: #f1f8e9; color: #689f38; }
 .tag.rights { background: #ffebee; color: #f44336; }
 .tag.legal { background: #e0f2f1; color: #009688; }
